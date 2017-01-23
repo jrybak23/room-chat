@@ -11,6 +11,7 @@ public class PublicChatApplicationTests {
 
 	@Test
 	public void contextLoads() {
-	}
+
+    }
 
 }

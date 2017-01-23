@@ -1,0 +1,22 @@
+[
+  {
+    "_id": {
+      "$oid": "5885ec7e4e8d6790ddd85f2a"
+    },
+    "username": "user",
+    "password": "password",
+    "roles": [
+      "USER"
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "5825ec3e4e8d6790ddd85f2a"
+    },
+    "username": "qwerty",
+    "password": "password",
+    "roles": [
+      "USER"
+    ]
+  }
+]

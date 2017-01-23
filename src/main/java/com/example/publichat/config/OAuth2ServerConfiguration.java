@@ -76,12 +76,11 @@ public class OAuth2ServerConfiguration {
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             clients
                     .inMemory()
-                    .withClient("clientapp")
+                    .withClient("webapp")
                     .authorizedGrantTypes("password")
                     .authorities("USER")
-                    .scopes("read", "write")
+                    .scopes("use")
                     .resourceIds(RESOURCE_ID)
-                    .accessTokenValiditySeconds(5)
                     .secret("123456");
         }
 
