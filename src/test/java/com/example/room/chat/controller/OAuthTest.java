@@ -1,4 +1,4 @@
-package com.example.publichat.controller;
+package com.example.room.chat.controller;
 
 import org.junit.Test;
 

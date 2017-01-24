@@ -1,6 +1,6 @@
-package com.example.publichat.repository;
+package com.example.room.chat.repository;
 
-import com.example.publichat.domain.User;
+import com.example.room.chat.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

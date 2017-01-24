@@ -1,8 +1,8 @@
-package com.example.publichat.service;
+package com.example.room.chat.service;
 
-import com.example.publichat.domain.Role;
-import com.example.publichat.domain.User;
-import com.example.publichat.repository.UserRepository;
+import com.example.room.chat.domain.Role;
+import com.example.room.chat.domain.User;
+import com.example.room.chat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " "));
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
 
         return new CustomUserDetails(user);
     }

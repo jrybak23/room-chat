@@ -1,4 +1,4 @@
-package com.example.publichat.config;
+package com.example.room.chat.config;
 
 import com.github.fakemongo.Fongo;
 import com.mongodb.Mongo;

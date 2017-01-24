@@ -1,7 +1,7 @@
-package com.example.publichat.config;
+package com.example.room.chat.config;
 
-import com.example.publichat.domain.Role;
-import com.example.publichat.service.CustomUserDetailsService;
+import com.example.room.chat.domain.Role;
+import com.example.room.chat.service.CustomUserDetailsService;
 import org.mockito.internal.util.collections.Sets;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

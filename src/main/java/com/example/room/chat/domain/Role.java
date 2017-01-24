@@ -1,4 +1,4 @@
-package com.example.publichat.domain;
+package com.example.room.chat.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

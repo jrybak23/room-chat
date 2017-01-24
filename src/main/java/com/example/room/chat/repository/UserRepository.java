@@ -1,6 +1,6 @@
-package com.example.publichat.repository;
+package com.example.room.chat.repository;
 
-import com.example.publichat.domain.User;
+import com.example.room.chat.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
