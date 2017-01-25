@@ -16,6 +16,16 @@ public class User {
 
     private String password;
 
+    public User() {
+    }
+
+    public User(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.roles = user.getRoles();
+    }
+
     private Set<Role> roles = new HashSet<>();
 
     public String getId() {
@@ -40,6 +50,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Set<Role> getRoles() {

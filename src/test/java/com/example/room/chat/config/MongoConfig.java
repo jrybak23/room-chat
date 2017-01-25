@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * Created by igorek2312 on 23.01.17.
  */
 @Configuration
-@EnableMongoRepositories("com.example.publichat")
+@EnableMongoRepositories("com.example.room.chat")
 @Profile("test")
 public class MongoConfig extends AbstractMongoConfiguration {
     @Override

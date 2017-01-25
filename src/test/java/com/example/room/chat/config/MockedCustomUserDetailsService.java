@@ -1,9 +1,8 @@
-package com.example.room.chat.service;
+package com.example.room.chat.config;
 
+import com.example.room.chat.domain.Role;
 import com.example.room.chat.domain.User;
-import com.example.room.chat.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,24 +10,30 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Created by igorek2312 on 23.01.17.
+ * Created by igorek2312 on 24.01.17.
  */
 @Service
-@Profile("dev")
-public class CustomUserDetailsService implements UserDetailsService {
-    private UserRepository userRepository;
+public class MockedCustomUserDetailsService implements UserDetailsService {
+    private Set<User> users = new HashSet<>();
 
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    {
+        User user = new User();
+        user.setId("qwerty123456");
+        user.setUsername("user");
+        user.setPassword("password");
+        user.setRoles(Sets.newSet(Role.USER));
+        users.add(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
+        User user = users.stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst().orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
 
         return new UserRepositoryUserDetails(user);
     }
@@ -64,5 +69,4 @@ public class CustomUserDetailsService implements UserDetailsService {
             return true;
         }
     }
-
 }

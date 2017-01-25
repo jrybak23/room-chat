@@ -1,4 +1,4 @@
-package com.example.room.chat.repository;
+package com.example.room.chat.repositories;
 
 import com.example.room.chat.domain.User;
 import org.springframework.data.mongodb.repository.MongoRepository;

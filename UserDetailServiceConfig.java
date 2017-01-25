@@ -1,6 +1,7 @@
 package com.example.room.chat.config;
 
 import com.example.room.chat.domain.Role;
+import com.example.room.chat.domain.User;
 import com.example.room.chat.service.CustomUserDetailsService;
 import org.mockito.internal.util.collections.Sets;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
  */
 @Configuration
 public class UserDetailServiceConfig {
-    private final UserDetails userDetails = new UserDetails() {
+    /*private final UserDetails userDetails = new UserDetails() {
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,11 +55,17 @@ public class UserDetailServiceConfig {
         public boolean isEnabled() {
             return true;
         }
-    };
+    };*/
 
     @Bean
     public CustomUserDetailsService userDetailsService() {
         CustomUserDetailsService mock = mock(CustomUserDetailsService.class);
+        User user = new User();
+        user.setId("qwerty123456");
+        user.setUsername("user");
+        user.setPassword("password");
+        user.setRoles(Sets.newSet(Role.USER));
+        CustomUserDetailsService.CustomUserDetails userDetails = new CustomUserDetailsService.CustomUserDetails(user);
         when(mock.loadUserByUsername("user")).thenReturn(userDetails);
         return mock;
     }

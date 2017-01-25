@@ -1,12 +1,13 @@
 package com.example.room.chat.config;
 
-import com.example.room.chat.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -14,7 +15,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 /**
@@ -48,18 +48,18 @@ public class OAuth2ServerConfiguration {
 
     @Configuration
     @EnableAuthorizationServer
+    @ComponentScan
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
         @Autowired
-        private CustomUserDetailsService userDetailsService;
+        private UserDetailsService userDetailsService;
 
         @Autowired
         @Qualifier("authenticationManagerBean")
         private AuthenticationManager authenticationManager;
 
         @Bean
-        public AccessTokenConverter accessTokenConverter() {
-           // return new CustomTokenConverter();
+        public JwtAccessTokenConverter accessTokenConverter() {
            return new JwtAccessTokenConverter();
         }
 
@@ -70,7 +70,6 @@ public class OAuth2ServerConfiguration {
                     .authenticationManager(this.authenticationManager)
                     .userDetailsService(userDetailsService);
         }
-
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -83,6 +82,7 @@ public class OAuth2ServerConfiguration {
                     .resourceIds(RESOURCE_ID)
                     .secret("123456");
         }
+
 
     }
 }

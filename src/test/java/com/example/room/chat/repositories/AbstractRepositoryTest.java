@@ -1,4 +1,4 @@
-package com.example.room.chat.repository;
+package com.example.room.chat.repositories;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class AbstractRepositoryTest {
+public abstract class AbstractRepositoryTest {
     @Autowired
     private MongoTemplate mongoTemplate;
 

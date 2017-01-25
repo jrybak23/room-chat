@@ -1,5 +1,8 @@
-package com.example.room.chat.controller;
+package com.example.room.chat.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.TextNode;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
+
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -24,8 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class AbstractControllerTest {
-
+public abstract class AbstractControllerTest {
+    protected static final String API_VERSION = "/api/v1";
     protected MockMvc mvc;
 
     @Autowired
@@ -41,9 +46,15 @@ public class AbstractControllerTest {
                 .build();
     }
 
+    private String parseJWT(String content) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(content);
+        TextNode textNode = (TextNode) root.get("access_token");
+        return textNode.textValue();
+    }
+
     protected String getAccessToken(String username, String password) throws Exception {
-        String authorization = "Basic "
-                + new String(Base64Utils.encode("webapp:123456".getBytes()));
+        String authorization = "Basic " + new String(Base64Utils.encode("webapp:123456".getBytes()));
 
         // @formatter:off
         String content = mvc
@@ -64,6 +75,6 @@ public class AbstractControllerTest {
                 .andReturn().getResponse().getContentAsString();
         // @formatter:on
 
-        return content.substring(17, 53);
+        return parseJWT(content);
     }
 }
