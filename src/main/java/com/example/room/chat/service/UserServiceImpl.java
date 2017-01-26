@@ -2,6 +2,8 @@ package com.example.room.chat.service;
 
 import com.example.room.chat.domain.Role;
 import com.example.room.chat.domain.User;
+import com.example.room.chat.reference.errors.CustomError;
+import com.example.room.chat.reference.errors.CustomErrorException;
 import com.example.room.chat.repositories.UserRepository;
 import com.example.room.chat.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getCurrentUser() {
         User user = userRepository.findByUsername(securityUtils.getCurrentUserLogin())
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new CustomErrorException(CustomError.NO_USER_WITH_SUCH_USERNAME));
         user.setPassword("");
         return user;
     }
