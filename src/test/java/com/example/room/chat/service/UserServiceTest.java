@@ -32,7 +32,6 @@ public class UserServiceTest extends AbstractServiceTest {
         user.setUsername("user");
         user.setPassword("password");
         when(userRepository.findByUsername("user")).thenReturn(Optional.of(user));
-        //when(userRepository.save(any(User.class))).thenReturn(user);
         when(securityUtils.getCurrentUserLogin()).thenReturn("user");
 
         userService = new UserServiceImpl(userRepository, securityUtils);

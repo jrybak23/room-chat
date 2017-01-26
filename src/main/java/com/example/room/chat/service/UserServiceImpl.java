@@ -18,6 +18,7 @@ import java.util.EnumSet;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+
     private SecurityUtils securityUtils;
 
     @Autowired

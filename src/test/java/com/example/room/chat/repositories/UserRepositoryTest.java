@@ -22,7 +22,7 @@ public class UserRepositoryTest extends AbstractRepositoryTest {
     @Test
     public void findByUsername() throws Exception {
         User user = userRepository.findByUsername("user").get();
-        assertEquals(user.getUsername(), "user");
+        assertEquals("user", user.getUsername());
     }
 
 }
