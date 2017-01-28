@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 public abstract class AbstractControllerTest {
-    protected static final String API_VERSION = "/api/v1";
     protected MockMvc mvc;
 
     @Autowired

@@ -8,7 +8,7 @@ import java.util.Optional;
  * Created by igorek2312 on 26.01.17.
  */
 public enum CustomError {
-    USER_WITH_SUCH_EMAIL_ALREADY_EXISTS(
+    USER_WITH_SUCH_USERNAME_ALREADY_EXISTS(
             1,
             HttpStatus.CONFLICT,
             "User with such username already exists",

@@ -29,6 +29,7 @@ public class UserRepositoryTest extends AbstractRepositoryTest {
 
     @Test(expected = CustomErrorException.class)
     public void notFoundTry() throws Exception {
-        findOneOrThrowNotFound(userRepository, "asfafakdnfknl", User.class);
+        findOneOrThrowNotFound(userRepository, "fakeid123", User.class);
     }
+
 }

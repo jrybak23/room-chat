@@ -2,6 +2,7 @@ package com.example.room.chat.controllers;
 
 import com.example.room.chat.domain.Role;
 import com.example.room.chat.domain.User;
+import com.example.room.chat.reference.Constants;
 import com.example.room.chat.service.UserService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UserControllerTest extends AbstractControllerTest {
 
         when(userService.getCurrentUser()).thenReturn(user);
         String accessToken = getAccessToken("user", "password");
-        mvc.perform(get(API_VERSION + "/users/me")
+        mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me")
                 .header("Authorization", "Bearer " + accessToken))
                 .andDo(print())
                 .andExpect(jsonPath("$.username", is("user")))
@@ -40,7 +41,7 @@ public class UserControllerTest extends AbstractControllerTest {
     @Test
     public void getAuthoritiesOfUser() throws Exception {
         String accessToken = getAccessToken("user", "password");
-        mvc.perform(get(API_VERSION + "/users/me/authorities")
+        mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me/authorities")
                 .header("Authorization", "Bearer " + accessToken))
                 .andDo(print())
                 .andExpect(jsonPath("$[0].authority", is(Role.USER.getAuthority())));
@@ -48,7 +49,7 @@ public class UserControllerTest extends AbstractControllerTest {
 
     @Test
     public void getAuthoritiesOfAnonymous() throws Exception {
-        mvc.perform(get(API_VERSION + "/users/me/authorities"))
+        mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me/authorities"))
                 .andDo(print())
                 .andExpect(jsonPath("$[0].authority", is(Role.ANONYMOUS.getAuthority())));
     }
@@ -56,7 +57,7 @@ public class UserControllerTest extends AbstractControllerTest {
     @Test
     public void registerUser() throws Exception {
         when(userService.createNewUser(any(User.class))).thenReturn("abc123456");
-        mvc.perform(post(API_VERSION + "/users")
+        mvc.perform(post(Constants.URI_API + Constants.URI_USERS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"username\" : \"user\",\n" +
