@@ -18,7 +18,7 @@ import java.util.Set;
  */
 @Service
 public class MockedCustomUserDetailsService implements UserDetailsService {
-    private Set<User> users = new HashSet<>();
+    private final Set<User> users = new HashSet<>();
 
     {
         User user = new User();

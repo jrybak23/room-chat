@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findByUsername(user.getUsername()).isPresent())
             throw new CustomErrorException(CustomError.USER_WITH_SUCH_USERNAME_ALREADY_EXISTS);
 
-        userRepository.save(user);
         user.setRoles(EnumSet.of(Role.USER));
+        userRepository.save(user);
         return user.getId();
     }
 

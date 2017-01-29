@@ -1,7 +1,7 @@
 [
   {
     "_id": {
-      "$oid": "5885ec7e4e8d6790ddd85f2a"
+      "$oid": "0000000000000000000000a1"
     },
     "username": "user",
     "password": "password",
@@ -11,7 +11,7 @@
   },
   {
     "_id": {
-      "$oid": "5825ec3e4e8d6790ddd85f2a"
+      "$oid": "0000000000000000000000a2"
     },
     "username": "qwerty",
     "password": "password",

@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by igorek2312 on 24.01.17.
@@ -44,6 +45,7 @@ public class UserControllerTest extends AbstractControllerTest {
         mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me")
                 .header("Authorization", "Bearer " + accessToken))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username", is("user")))
                 .andExpect(jsonPath("$.password", is("")));
     }
@@ -54,6 +56,7 @@ public class UserControllerTest extends AbstractControllerTest {
         mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me/authorities")
                 .header("Authorization", "Bearer " + accessToken))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].authority", is(Role.USER.getAuthority())));
     }
 
@@ -61,6 +64,7 @@ public class UserControllerTest extends AbstractControllerTest {
     public void getAuthoritiesOfAnonymous() throws Exception {
         mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me/authorities"))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].authority", is(Role.ANONYMOUS.getAuthority())));
     }
 
@@ -74,6 +78,7 @@ public class UserControllerTest extends AbstractControllerTest {
                         "  \"password\" : \"password\"\n" +
                         "}"))
                 .andDo(print())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$", is("abc123456")));
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +32,16 @@ public class ExceptionHandlerController {
                 : null;
 
         ErrorInfo dto = new ErrorInfo(error.getCode(), message, error.getDescription());
+        return new ResponseEntity<>(dto, error.getHttpStatus());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorInfo> handleException(AccessDeniedException e) {
+        CustomError error = CustomError.ACCESS_DENIED;
+        String message = error.getMessageKey().isPresent()
+                ? ms.getMessage(error.getMessageKey().get(), null, LocaleContextHolder.getLocale()) : null;
+        ErrorInfo dto = new ErrorInfo(error.getCode(), message, e.getMessage());
         return new ResponseEntity<>(dto, error.getHttpStatus());
     }
 }

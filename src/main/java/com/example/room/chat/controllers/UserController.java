@@ -4,6 +4,7 @@ import com.example.room.chat.domain.User;
 import com.example.room.chat.reference.Constants;
 import com.example.room.chat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,10 +26,9 @@ public class UserController {
     }
 
     @GetMapping(Constants.URI_USERS + "/me")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public User getMyInfo() {
-        User currentUser = userService.getCurrentUser();
-        return currentUser;
+        return userService.getCurrentUser();
     }
 
     @GetMapping(Constants.URI_USERS + "/me/authorities")
@@ -37,7 +37,10 @@ public class UserController {
     }
 
     @PostMapping(Constants.URI_USERS)
+    @ResponseStatus(HttpStatus.CREATED)
     public String registerUser(@RequestBody User user) {
         return userService.createNewUser(user);
     }
+
+
 }

@@ -18,7 +18,7 @@ public class UserRepositoryTest extends AbstractRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        importJSON("user", "src/test/resources/user.json");
+        importJSON("user", "src/test/resources/users.json");
     }
 
     @Test
