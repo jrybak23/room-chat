@@ -4,7 +4,9 @@ import com.example.room.chat.domain.Role;
 import com.example.room.chat.domain.User;
 import com.example.room.chat.reference.Constants;
 import com.example.room.chat.service.UserService;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
@@ -21,7 +23,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class UserControllerTest extends AbstractControllerTest {
     @Autowired
+    private UserController userController;
+
+    @Mock
     private UserService userService;
+
+    @Before
+    public void setUp() throws Exception {
+        userController.setUserService(userService);
+    }
 
     @Test
     public void getMyInfo() throws Exception {

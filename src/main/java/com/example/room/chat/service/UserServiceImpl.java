@@ -7,7 +7,6 @@ import com.example.room.chat.reference.errors.CustomErrorException;
 import com.example.room.chat.repositories.UserRepository;
 import com.example.room.chat.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
@@ -16,7 +15,6 @@ import java.util.EnumSet;
  * Created by igorek2312 on 24.01.17.
  */
 @Service
-@Profile("dev")
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
