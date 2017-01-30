@@ -23,7 +23,7 @@
 <![endif]-->
 
 <div class="header">
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default" role="navigation" ng-controller="HeaderCtrl">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -39,7 +39,10 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a ui-sref="main">Home</a></li>
+        <li ng-show="isAnnonymos" ui-sref-active="active"><a ui-sref="login">Log in</a></li>
+        <li ng-show="hasUserAuthority" ui-sref-active="active"><a ui-sref="rooms">Room</a></li>
         <li ui-sref-active="active"><a ui-sref="about">About</a></li>
+        <li ng-show="!isAnnonymos"><a href="#" ng-click="logOut()">Log out</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
@@ -52,7 +55,6 @@
 
 <div class="footer">
   <div class="container">
-    <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
   </div>
 </div>
 
@@ -85,6 +87,7 @@
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -92,6 +95,14 @@
 <script src="scripts/app.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/about.js"></script>
+<script src="scripts/controllers/login.js"></script>
+<script src="scripts/services/oauth2.js"></script>
+<script src="scripts/services/userauthorities.js"></script>
+<script src="scripts/controllers/rooms.js"></script>
+<script src="scripts/controllers/header.js"></script>
+<script src="scripts/services/message-box.js"></script>
+<script src="scripts/controllers/modal-message.js"></script>
+<script src="scripts/controllers/general-question-modal.js"></script>
 <!-- endbuild -->
 </body>
 </html>

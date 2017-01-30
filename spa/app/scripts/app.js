@@ -21,6 +21,14 @@ angular
     'ui.bootstrap',
     'angular-loading-bar'
   ])
+  .constant('GRUNT_SERVE_URL', 'http://localhost:9000')
+  .constant('TOMCAT_URL', 'http://localhost:8080')
+  .constant('API_URI', '/api/v1')
+  .factory('HOST_URL', function (GRUNT_SERVE_URL, TOMCAT_URL) {
+    var originUrl = location.origin;
+    var hostUrl = originUrl == GRUNT_SERVE_URL ? TOMCAT_URL : originUrl;
+    return hostUrl;
+  })
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state({
@@ -36,12 +44,26 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
+      })
+      .state({
+        name: 'login',
+        url: '/login',
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
+      .state({
+        name: 'rooms',
+        url: '/rooms',
+        templateUrl: 'views/rooms.html',
+        controller: 'RoomsCtrl',
+        controllerAs: 'rooms'
       });
 
     $urlRouterProvider
       .otherwise('/');
   })
-  .config(function ($httpProvider) {
+  .config(function ($httpProvider, MessageType) {
     $httpProvider.interceptors.push(function ($q, $injector) {
       return {
         request: function (config) {
@@ -55,8 +77,39 @@ angular
         },
         responseError: function (response) {
           console.log(response);
+          var messageBox = $injector.get('messageBox');
+          if (response.data) {
+            if (response.data.error_description === 'Bad credentials')
+              messageBox.show('Wrong username or password', MessageType.ERROR);
+            else if (response.data.error_description === 'User is disabled')
+              messageBox.show('Account is disabled', MessageType.ERROR);
+            else if (response.data.error_description === 'User account is locked')
+              messageBox.show('Account is locked', MessageType.ERROR);
+            else if (response.data.error === 'invalid_token')
+              $injector.get('oauth2').handleInvalidToken();
+            else if (response.data.errorCode === 401)
+              messageBox.show(response.data.message, MessageType.ERROR).then(
+                function () {
+                  $injector.get('oauth2').handleInvalidToken();
+                }
+              );
+            else if (response.data.message)
+              messageBox.show(response.data.message, MessageType.ERROR);
+          }
+          else
+            messageBox.show(response, MessageType.ERROR);
           return $q.reject(response);
         }
       };
     });
+  })
+  .run(function ($rootScope,
+                 $q,
+                 oauth2) {
+    oauth2.updateAuthoritiesCallback(function (authorities) {
+      $rootScope.hasUserAuthority = authorities.indexOf('ROLE_USER') > -1;
+      $rootScope.hasAdminAuthority = authorities.indexOf('ROLE_ADMIN') > -1;
+      $rootScope.isAnnonymos = authorities.indexOf('ROLE_ANONYMOUS') > -1;
+    });
+    oauth2.updateAuthorities();
   });

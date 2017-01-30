@@ -10,7 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by igorek2312 on 24.01.17.
@@ -32,8 +33,12 @@ public class UserController {
     }
 
     @GetMapping(Constants.URI_USERS + "/me/authorities")
-    public Collection<? extends GrantedAuthority> getMyAuthorities() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+    public List<String> getMyAuthorities() {
+        return SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
     }
 
     @PostMapping(Constants.URI_USERS)
