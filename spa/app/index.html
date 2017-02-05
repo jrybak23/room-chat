@@ -40,7 +40,8 @@
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a ui-sref="main">Home</a></li>
         <li ng-show="isAnnonymos" ui-sref-active="active"><a ui-sref="login">Log in</a></li>
-        <li ng-show="hasUserAuthority" ui-sref-active="active"><a ui-sref="rooms">Room</a></li>
+        <li ng-show="hasUserAuthority" ui-sref-active="active"><a ui-sref="rooms">Rooms</a></li>
+        <li ng-show="hasUserAuthority" ui-sref-active="active"><a ui-sref="profile">Profile</a></li>
         <li ui-sref-active="active"><a ui-sref="about">About</a></li>
         <li ng-show="!isAnnonymos"><a href="#" ng-click="logOut()">Log out</a></li>
       </ul>
@@ -88,6 +89,9 @@
 <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/angular-moment/angular-moment.js"></script>
+<script src="bower_components/sockjs-client/dist/sockjs.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -103,6 +107,10 @@
 <script src="scripts/services/message-box.js"></script>
 <script src="scripts/controllers/modal-message.js"></script>
 <script src="scripts/controllers/general-question-modal.js"></script>
+<script src="scripts/controllers/room.js"></script>
+<script src="scripts/services/chat.js"></script>
+<script src="scripts/controllers/profile.js"></script>
+<script src="scripts/services/user.js"></script>
 <!-- endbuild -->
 </body>
 </html>

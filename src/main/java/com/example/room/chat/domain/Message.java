@@ -3,6 +3,8 @@ package com.example.room.chat.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.Date;
+
 /**
  * Created by igorek2312 on 24.01.17.
  */
@@ -11,6 +13,8 @@ public class Message {
     private String id;
 
     private String content;
+
+    private Date date;
 
     @DBRef
     private Room room;
@@ -32,6 +36,14 @@ public class Message {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Room getRoom() {

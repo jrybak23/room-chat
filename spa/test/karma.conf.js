@@ -34,6 +34,9 @@ module.exports = function (config) {
       'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/stomp-websocket/lib/stomp.min.js',
+      'bower_components/moment/moment.js',
+      'bower_components/angular-moment/angular-moment.js',
+      'bower_components/sockjs-client/dist/sockjs.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

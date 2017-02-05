@@ -15,7 +15,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  * Created by igorek2312 on 21.01.17.
@@ -30,19 +32,22 @@ public class OAuth2ServerConfiguration {
 
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
-            // @formatter:off
             resources
                     .resourceId(RESOURCE_ID);
-            // @formatter:on
         }
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            // @formatter:off
             http
+                    .csrf()
+                    // ignore our stomp endpoints since they are protected using Stomp headers
+                    .disable()
+                    .headers()
+                    // allow same origin to frame our site to support iframe SockJS
+                    .frameOptions().sameOrigin()
+                    .and()
                     .authorizeRequests()
-                    .anyRequest().permitAll();
-            // @formatter:on
+                    .antMatchers("/api/**").permitAll();
         }
     }
 
@@ -60,13 +65,21 @@ public class OAuth2ServerConfiguration {
 
         @Bean
         public JwtAccessTokenConverter accessTokenConverter() {
-           return new JwtAccessTokenConverter();
+            JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+            converter.setSigningKey("123");
+            return converter;
+        }
+
+        @Bean
+        public TokenStore tokenStore() {
+            return new JwtTokenStore(accessTokenConverter());
         }
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
             endpoints
                     .accessTokenConverter(accessTokenConverter())
+                    .tokenStore(tokenStore())
                     .authenticationManager(this.authenticationManager)
                     .userDetailsService(userDetailsService);
         }

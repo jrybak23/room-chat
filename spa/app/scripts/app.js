@@ -19,7 +19,8 @@ angular
     'ngTouch',
     'ui.router',
     'ui.bootstrap',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'angularMoment'
   ])
   .constant('GRUNT_SERVE_URL', 'http://localhost:9000')
   .constant('TOMCAT_URL', 'http://localhost:8080')
@@ -58,6 +59,20 @@ angular
         templateUrl: 'views/rooms.html',
         controller: 'RoomsCtrl',
         controllerAs: 'rooms'
+      })
+      .state({
+        name: 'room',
+        url: '/room/:roomId',
+        templateUrl: 'views/room.html',
+        controller: 'RoomCtrl',
+        controllerAs: 'room'
+      })
+      .state({
+        name: 'profile',
+        url: '/profile',
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl',
+        controllerAs: 'profile'
       });
 
     $urlRouterProvider
