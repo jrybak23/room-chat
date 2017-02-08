@@ -1,6 +1,7 @@
 package com.example.room.chat.service;
 
 import com.example.room.chat.domain.Room;
+import com.example.room.chat.transfer.RoomDetail;
 import com.example.room.chat.transfer.RoomForm;
 
 import java.util.List;
@@ -11,7 +12,9 @@ import java.util.List;
 public interface RoomService {
     String createRoom(Room room);
 
-    List<RoomForm> getCurrentUserRooms();
+    List<RoomDetail> getCurrentUserRooms();
+
+    RoomDetail getRoom(String roomId);
 
     void deleteRoom(String roomId);
 

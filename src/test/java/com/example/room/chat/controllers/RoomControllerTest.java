@@ -3,6 +3,7 @@ package com.example.room.chat.controllers;
 import com.example.room.chat.domain.Room;
 import com.example.room.chat.reference.Constants;
 import com.example.room.chat.service.RoomService;
+import com.example.room.chat.transfer.RoomDetail;
 import com.example.room.chat.transfer.RoomForm;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,6 +56,21 @@ public class RoomControllerTest extends AbstractControllerTest {
                 .header("Authorization", "Bearer " + accessToken))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getRoom() throws Exception {
+        RoomDetail room = new RoomDetail();
+        room.setId("id123456");
+        room.setName("foobar");
+        when(roomService.getRoom("id123456"))
+                .thenReturn(room);
+        String accessToken = getAccessToken("user", "password");
+        mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS + "/id123456")
+                .header("Authorization", "Bearer " + accessToken))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is("id123456")));
     }
 
     @Test

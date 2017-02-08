@@ -57,7 +57,7 @@ public class UserControllerTest extends AbstractControllerTest {
                 .header("Authorization", "Bearer " + accessToken))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].authority", is(Role.USER.getAuthority())));
+                .andExpect(jsonPath("$[0]", is(Role.USER.getAuthority())));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class UserControllerTest extends AbstractControllerTest {
         mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me/authorities"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].authority", is(Role.ANONYMOUS.getAuthority())));
+                .andExpect(jsonPath("$[0]", is(Role.ANONYMOUS.getAuthority())));
     }
 
     @Test

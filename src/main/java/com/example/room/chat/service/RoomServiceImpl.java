@@ -6,12 +6,12 @@ import com.example.room.chat.reference.errors.CustomError;
 import com.example.room.chat.reference.errors.CustomErrorException;
 import com.example.room.chat.repositories.RoomRepository;
 import com.example.room.chat.repositories.UserRepository;
+import com.example.room.chat.transfer.RoomDetail;
 import com.example.room.chat.transfer.RoomForm;
 import com.example.room.chat.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.example.room.chat.utils.EntityUtil.findOneOrThrowNotFound;
@@ -44,22 +44,30 @@ public class RoomServiceImpl implements RoomService {
         return room.getId();
     }
 
-    private Function<Room, RoomForm> mapToRoomDetail = room -> {
-        RoomForm roomForm = new RoomForm();
-        roomForm.setName(room.getName());
-        return roomForm;
-    };
+    private RoomDetail mapToRoomDetail(Room room) {
+        RoomDetail roomDetail = new RoomDetail();
+        roomDetail.setId(room.getId());
+        roomDetail.setName(room.getName());
+        roomDetail.setOwner(room.getUser().getUsername());
+        String currentUserLogin = securityUtils.getCurrentUserLogin();
+        roomDetail.setCurrentUserIsOwner(room.getUser().getUsername().equals(currentUserLogin));
+        return roomDetail;
+    }
 
     @Override
-    public List<RoomForm> getCurrentUserRooms() {
+    public List<RoomDetail> getCurrentUserRooms() {
         User user = userRepository.findByUsername(securityUtils.getCurrentUserLogin())
                 .orElseThrow(() -> new CustomErrorException(CustomError.NO_USER_WITH_SUCH_USERNAME));
 
         return roomRepository.findByUserId(user.getId()).stream()
-                .map(mapToRoomDetail)
+                .map(this::mapToRoomDetail)
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public RoomDetail getRoom(String roomId) {
+        return mapToRoomDetail(findOneOrThrowNotFound(roomRepository, roomId, Room.class));
+    }
 
     @Override
     public void updateRoom(String roomId, RoomForm roomForm) {
@@ -73,7 +81,7 @@ public class RoomServiceImpl implements RoomService {
     public void deleteRoom(String roomId) {
         Room room = findOneOrThrowNotFound(roomRepository, roomId, Room.class);
         authorizeRoom(room);
-        userRepository.delete(roomId);
+        roomRepository.delete(room);
     }
 
     private void authorizeRoom(Room room) {

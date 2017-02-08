@@ -8,7 +8,7 @@
  * Controller of the roomChatApp
  */
 angular.module('roomChatApp')
-  .controller('RoomCtrl', function ($scope, $stateParams, chat) {
+  .controller('RoomCtrl', function ($scope, $stateParams, chat, MyRoom) {
     $scope.roomId = $stateParams.roomId;
     $scope.messages = [];
 
@@ -31,5 +31,20 @@ angular.module('roomChatApp')
     $scope.sendMessage = function () {
       chat.sendMessage({content: $scope.message});
       $scope.message = "";
-    }
+    };
+
+    $scope.getRoom = function () {
+      MyRoom.get({roomId: $stateParams.roomId},
+        function (response) {
+          $scope.room = response;
+        });
+    };
+    $scope.updateRoom = function () {
+      MyRoom.update(
+        {roomId: $stateParams.roomId},
+        $scope.room
+      );
+    };
+
+    $scope.getRoom();
   });

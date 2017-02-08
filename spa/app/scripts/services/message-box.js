@@ -79,7 +79,15 @@ angular.module('roomChatApp')
         messageModalOptions.templateUrl = 'views/general-question-modal.html';
         messageModalOptions.controller = 'GeneralQuestionModalCtrl';
         return $uibModal.open(messageModalOptions).result;
-      }
+      },
+      showInputDialog: function (title, initValue) {
+        messageContent = initValue;
+        messageTitle = title;
+        panelClass = getPanelClass(MessageType.SUCCESS);
+        messageModalOptions.templateUrl = 'views/input-dialog-modal.html';
+        messageModalOptions.controller = 'InputDialogModalCtrl';
+        return $uibModal.open(messageModalOptions).result;
+      },
     };
   })
   .constant('MessageType',

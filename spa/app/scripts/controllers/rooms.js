@@ -8,10 +8,46 @@
  * Controller of the roomChatApp
  */
 angular.module('roomChatApp')
-  .controller('RoomsCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('RoomsCtrl', function ($scope, $state, MyRoom, messageBox) {
+    $scope.getRooms = function () {
+      MyRoom.query(
+        function (response) {
+          $scope.rooms = response;
+        }
+      );
+    };
+
+    $scope.goRoom = function (room) {
+      $state.go('room', {roomId: room.id});
+    };
+
+    $scope.createRoom = function () {
+
+      messageBox.showInputDialog('Input name of room', 'fooroom').then(
+        function (name) {
+          MyRoom.save(
+            {name: name},
+            function () {
+              $scope.getRooms();
+            }
+          );
+        }
+      );
+
+    };
+
+    $scope.deleteRoom = function (room) {
+      messageBox.showGeneralQuestion("Do you really want to delete this room?").then(
+        function () {
+          MyRoom.delete(
+            {roomId: room.id},
+            function () {
+              $scope.getRooms();
+            }
+          );
+        }
+      );
+    };
+
+    $scope.getRooms();
   });
