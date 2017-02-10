@@ -11,6 +11,7 @@ import com.example.room.chat.utils.SecurityUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +36,7 @@ public class RoomServiceTest extends AbstractServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        Mockito.reset();
         roomService = new RoomServiceImpl(
                 roomRepository,
                 userRepository,
@@ -107,6 +109,7 @@ public class RoomServiceTest extends AbstractServiceTest {
 
     @Test
     public void getRoom() throws Exception {
+        when(securityUtils.getCurrentUserLogin()).thenReturn("user");
         User user = setupUser();
         Room room = new Room();
         room.setId("id123456");

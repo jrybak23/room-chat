@@ -1,7 +1,8 @@
 package com.example.room.chat.service;
 
 import com.example.room.chat.domain.User;
-import com.example.room.chat.reference.errors.CustomErrorException;
+import com.example.room.chat.reference.errors.FailedRecaptchaVerificationCustomException;
+import com.example.room.chat.reference.errors.UserWithSuchUsernameAlreadyExistsCustomException;
 import com.example.room.chat.repositories.UserRepository;
 import com.example.room.chat.transfer.CreatedResourceDto;
 import com.example.room.chat.transfer.RecaptchaVerificationResponseDto;
@@ -10,6 +11,7 @@ import com.example.room.chat.utils.SecurityUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.Optional;
 
@@ -34,6 +36,7 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        Mockito.reset();
         userService = new UserServiceImpl(userRepository, securityUtils, reCaptchaClient);
     }
 
@@ -73,8 +76,8 @@ public class UserServiceTest extends AbstractServiceTest {
         assertEquals("qwerty123456", newUser.getId());
     }
 
-    @Test(expected = CustomErrorException.class)
-    public void createNewConflictUser() throws Exception {
+    @Test(expected = UserWithSuchUsernameAlreadyExistsCustomException.class)
+    public void assertThatUsersWithSameUsernamesCannotBeRegistred() throws Exception {
         RecaptchaVerificationResponseDto dto = new RecaptchaVerificationResponseDto();
         dto.setSuccess(true);
         when(reCaptchaClient.verify("recaptcha_response")).thenReturn(dto);
@@ -86,8 +89,8 @@ public class UserServiceTest extends AbstractServiceTest {
         userService.createNewUser(form);
     }
 
-    @Test(expected = CustomErrorException.class)
-    public void createNewUserWithFailedReacptha() throws Exception {
+    @Test(expected = FailedRecaptchaVerificationCustomException.class)
+    public void assertThatUserWithFailedRecaptchaCannotBeRegistred() throws Exception {
         RecaptchaVerificationResponseDto dto = new RecaptchaVerificationResponseDto();
         dto.setSuccess(false);
         when(reCaptchaClient.verify("recaptcha_response")).thenReturn(dto);

@@ -9,6 +9,7 @@ import com.example.room.chat.transfer.RoomForm;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
@@ -34,6 +35,7 @@ public class RoomControllerTest extends AbstractControllerTest {
 
     @Before
     public void setUp() throws Exception {
+        Mockito.reset();
         roomController.setRoomService(roomService);
     }
 

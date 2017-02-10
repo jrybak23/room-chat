@@ -1,7 +1,6 @@
 package com.example.room.chat.utils;
 
-import com.example.room.chat.reference.errors.CustomError;
-import com.example.room.chat.reference.errors.CustomErrorException;
+import com.example.room.chat.reference.errors.core.NoEntityWithSuchIdCustomException;
 import org.springframework.data.repository.CrudRepository;
 
 import java.io.Serializable;
@@ -21,9 +20,10 @@ public class EntityUtil {
     ) {
         T entity = repository.findOne(id);
         if (entity != null) return entity;
-        CustomError error = CustomError.NO_ENTITY_WITH_SUCH_ID;
-        error.setDescriptionArgs(repositoryType.getName(), id);
-        throw new CustomErrorException(error);
+
+        NoEntityWithSuchIdCustomException exception = new NoEntityWithSuchIdCustomException();
+        exception.setDescriptionArgs(repositoryType.getName(), id);
+        throw exception;
     }
 
 }

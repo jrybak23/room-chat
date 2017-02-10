@@ -1,7 +1,6 @@
 package com.example.room.chat.config;
 
-import com.example.room.chat.reference.errors.CustomError;
-import com.example.room.chat.reference.errors.CustomErrorException;
+import com.example.room.chat.reference.errors.core.AccessDeniedCustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.Message;
@@ -33,7 +32,7 @@ public class StompInterceptor extends ChannelInterceptorAdapter {
 
             String accessToken = Optional.ofNullable(accessor.getNativeHeader("Authorization"))
                     .map(list -> list.get(0))
-                    .orElseThrow(() -> new CustomErrorException(CustomError.ACCESS_DENIED))
+                    .orElseThrow(AccessDeniedCustomException::new)
                     .replace("Bearer ", "").trim();
 
             OAuth2Authentication authentication = tokenStore.readAuthentication(accessToken);

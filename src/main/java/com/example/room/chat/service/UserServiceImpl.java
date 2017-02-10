@@ -2,8 +2,9 @@ package com.example.room.chat.service;
 
 import com.example.room.chat.domain.Role;
 import com.example.room.chat.domain.User;
-import com.example.room.chat.reference.errors.CustomError;
-import com.example.room.chat.reference.errors.CustomErrorException;
+import com.example.room.chat.reference.errors.FailedRecaptchaVerificationCustomException;
+import com.example.room.chat.reference.errors.NoUserWithSuchUsernameCustomException;
+import com.example.room.chat.reference.errors.UserWithSuchUsernameAlreadyExistsCustomException;
 import com.example.room.chat.repositories.UserRepository;
 import com.example.room.chat.transfer.CreatedResourceDto;
 import com.example.room.chat.transfer.RecaptchaVerificationResponseDto;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getCurrentUser() {
         User user = userRepository.findByUsername(securityUtils.getCurrentUserLogin())
-                .orElseThrow(() -> new CustomErrorException(CustomError.NO_USER_WITH_SUCH_USERNAME));
+                .orElseThrow(NoUserWithSuchUsernameCustomException::new);
         user.setPassword("");
         return user;
     }
@@ -49,10 +50,10 @@ public class UserServiceImpl implements UserService {
     public CreatedResourceDto createNewUser(RegistrationForm form) {
         RecaptchaVerificationResponseDto response = reCaptchaClient.verify(form.getRecaptchaResponse());
         if (!response.isSuccess())
-            throw new CustomErrorException(CustomError.FAILED_RECAPTCHA_VERIFICATION);
+            throw new FailedRecaptchaVerificationCustomException();
 
         if (userRepository.findByUsername(form.getUsername()).isPresent())
-            throw new CustomErrorException(CustomError.USER_WITH_SUCH_USERNAME_ALREADY_EXISTS);
+            throw new UserWithSuchUsernameAlreadyExistsCustomException();
 
         User user = new User();
         user.setUsername(form.getUsername());

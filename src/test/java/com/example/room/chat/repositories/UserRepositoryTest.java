@@ -1,7 +1,7 @@
 package com.example.room.chat.repositories;
 
 import com.example.room.chat.domain.User;
-import com.example.room.chat.reference.errors.CustomErrorException;
+import com.example.room.chat.reference.errors.core.NoEntityWithSuchIdCustomException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class UserRepositoryTest extends AbstractRepositoryTest {
         assertEquals("user", user.getUsername());
     }
 
-    @Test(expected = CustomErrorException.class)
+    @Test(expected = NoEntityWithSuchIdCustomException.class)
     public void notFoundTry() throws Exception {
         findOneOrThrowNotFound(userRepository, "fakeid123", User.class);
     }

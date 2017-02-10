@@ -118,6 +118,8 @@ angular
               );
             else if (response.data.message)
               messageBox.show(response.data.message, MessageType.ERROR);
+            else if (response.data.description)
+              messageBox.show("Unexpected error. Error description: " + response.data.description, MessageType.ERROR);
           }
           else
             messageBox.show(response, MessageType.ERROR);

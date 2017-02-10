@@ -1,8 +1,8 @@
 package com.example.room.chat.controllers;
 
-import com.example.room.chat.reference.errors.CustomError;
-import com.example.room.chat.reference.errors.CustomErrorException;
 import com.example.room.chat.reference.errors.ErrorInfo;
+import com.example.room.chat.reference.errors.core.AbstractCustomException;
+import com.example.room.chat.reference.errors.core.AccessDeniedCustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -22,24 +22,24 @@ public class ExceptionHandlerController {
     @Qualifier("backendMessageSource")
     private MessageSource ms;
 
-    @ExceptionHandler(CustomErrorException.class)
+    @ExceptionHandler(AbstractCustomException.class)
     @ResponseBody
-    public ResponseEntity<ErrorInfo> handleErrorCodeException(CustomErrorException e) {
-        CustomError error = e.getError();
+    public ResponseEntity<ErrorInfo> handleErrorCodeException(AbstractCustomException e) {
 
-        String message = error.getMessageKey().isPresent()
-                ? ms.getMessage(error.getMessageKey().get(), error.getMessageArgs(), LocaleContextHolder.getLocale())
+        String message = e.getMessageKey().isPresent()
+                ? ms.getMessage(e.getMessageKey().get(), e.getMessageArgs(), LocaleContextHolder.getLocale())
                 : null;
 
-        ErrorInfo dto = new ErrorInfo(error.getCode(), message, error.getDescription());
+        ErrorInfo dto = new ErrorInfo(e.getCode(), message, e.getDescription());
 
-        return new ResponseEntity<>(dto, error.getHttpStatus());
+        return new ResponseEntity<>(dto, e.getHttpStatus());
     }
 
     @ResponseBody
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorInfo> handleException(AccessDeniedException e) {
-        CustomError error = CustomError.ACCESS_DENIED;
+        AccessDeniedCustomException error = new AccessDeniedCustomException();
+
         String message = error.getMessageKey().isPresent()
                 ? ms.getMessage(error.getMessageKey().get(), null, LocaleContextHolder.getLocale()) : null;
         ErrorInfo dto = new ErrorInfo(error.getCode(), message, e.getMessage());

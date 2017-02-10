@@ -2,8 +2,8 @@ package com.example.room.chat.service;
 
 import com.example.room.chat.domain.Room;
 import com.example.room.chat.domain.User;
-import com.example.room.chat.reference.errors.CustomError;
-import com.example.room.chat.reference.errors.CustomErrorException;
+import com.example.room.chat.reference.errors.NoUserWithSuchUsernameCustomException;
+import com.example.room.chat.reference.errors.core.ForbiddenCustomException;
 import com.example.room.chat.repositories.RoomRepository;
 import com.example.room.chat.repositories.UserRepository;
 import com.example.room.chat.transfer.CreatedResourceDto;
@@ -39,7 +39,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public CreatedResourceDto createRoom(Room room) {
         User user = userRepository.findByUsername(securityUtils.getCurrentUserLogin())
-                .orElseThrow(() -> new CustomErrorException(CustomError.NO_USER_WITH_SUCH_USERNAME));
+                .orElseThrow(NoUserWithSuchUsernameCustomException::new);
         room.setUser(user);
         roomRepository.save(room);
         return new CreatedResourceDto(room.getId());
@@ -58,7 +58,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomDetail> getCurrentUserRooms() {
         User user = userRepository.findByUsername(securityUtils.getCurrentUserLogin())
-                .orElseThrow(() -> new CustomErrorException(CustomError.NO_USER_WITH_SUCH_USERNAME));
+                .orElseThrow(NoUserWithSuchUsernameCustomException::new);
 
         return roomRepository.findByUserId(user.getId()).stream()
                 .map(this::mapToRoomDetail)
@@ -67,7 +67,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomDetail getRoom(String roomId) {
-        return mapToRoomDetail(findOneOrThrowNotFound(roomRepository, roomId, Room.class));
+        Room room = findOneOrThrowNotFound(roomRepository, roomId, Room.class);
+        authorizeRoom(room);
+        return mapToRoomDetail(room);
     }
 
     @Override
@@ -87,9 +89,9 @@ public class RoomServiceImpl implements RoomService {
 
     private void authorizeRoom(Room room) {
         User user = userRepository.findByUsername(securityUtils.getCurrentUserLogin())
-                .orElseThrow(() -> new CustomErrorException(CustomError.NO_USER_WITH_SUCH_USERNAME));
+                .orElseThrow(NoUserWithSuchUsernameCustomException::new);
 
         if (!room.getUser().getId().equals(user.getId()))
-            throw new CustomErrorException(CustomError.FORBIDDEN);
+            throw new ForbiddenCustomException();
     }
 }
