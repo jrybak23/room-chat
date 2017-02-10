@@ -4,6 +4,8 @@ import com.example.room.chat.domain.Role;
 import com.example.room.chat.domain.User;
 import com.example.room.chat.reference.Constants;
 import com.example.room.chat.service.UserService;
+import com.example.room.chat.transfer.CreatedResourceDto;
+import com.example.room.chat.transfer.RegistrationForm;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -70,7 +72,7 @@ public class UserControllerTest extends AbstractControllerTest {
 
     @Test
     public void registerUser() throws Exception {
-        when(userService.createNewUser(any(User.class))).thenReturn("abc123456");
+        when(userService.createNewUser(any(RegistrationForm.class))).thenReturn(new CreatedResourceDto("abc123456"));
         mvc.perform(post(Constants.URI_API + Constants.URI_USERS)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -79,7 +81,7 @@ public class UserControllerTest extends AbstractControllerTest {
                         "}"))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", is("abc123456")));
+                .andExpect(jsonPath("$.id", is("abc123456")));
     }
 
 }

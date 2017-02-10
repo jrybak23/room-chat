@@ -5,6 +5,9 @@ import com.example.room.chat.domain.User;
 import com.example.room.chat.reference.errors.CustomError;
 import com.example.room.chat.reference.errors.CustomErrorException;
 import com.example.room.chat.repositories.UserRepository;
+import com.example.room.chat.transfer.CreatedResourceDto;
+import com.example.room.chat.transfer.RecaptchaVerificationResponseDto;
+import com.example.room.chat.transfer.RegistrationForm;
 import com.example.room.chat.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +20,21 @@ import java.util.EnumSet;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private SecurityUtils securityUtils;
+    private final SecurityUtils securityUtils;
+
+    private ReCaptchaClient reCaptchaClient;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, SecurityUtils securityUtils) {
+    public UserServiceImpl(
+            UserRepository userRepository,
+            SecurityUtils securityUtils,
+            ReCaptchaClient reCaptchaClient
+    ) {
         this.userRepository = userRepository;
         this.securityUtils = securityUtils;
+        this.reCaptchaClient = reCaptchaClient;
     }
 
     @Override
@@ -36,13 +46,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String createNewUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()).isPresent())
+    public CreatedResourceDto createNewUser(RegistrationForm form) {
+        RecaptchaVerificationResponseDto response = reCaptchaClient.verify(form.getRecaptchaResponse());
+        if (!response.isSuccess())
+            throw new CustomErrorException(CustomError.FAILED_RECAPTCHA_VERIFICATION);
+
+        if (userRepository.findByUsername(form.getUsername()).isPresent())
             throw new CustomErrorException(CustomError.USER_WITH_SUCH_USERNAME_ALREADY_EXISTS);
 
+        User user = new User();
+        user.setUsername(form.getUsername());
+        user.setPassword(form.getPassword());
         user.setRoles(EnumSet.of(Role.USER));
         userRepository.save(user);
-        return user.getId();
+        return new CreatedResourceDto(user.getId());
     }
 
 }

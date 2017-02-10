@@ -3,6 +3,7 @@ package com.example.room.chat.controllers;
 import com.example.room.chat.domain.Room;
 import com.example.room.chat.reference.Constants;
 import com.example.room.chat.service.RoomService;
+import com.example.room.chat.transfer.CreatedResourceDto;
 import com.example.room.chat.transfer.RoomDetail;
 import com.example.room.chat.transfer.RoomForm;
 import org.junit.Before;
@@ -38,7 +39,7 @@ public class RoomControllerTest extends AbstractControllerTest {
 
     @Test
     public void createRoom() throws Exception {
-        when(roomService.createRoom(any(Room.class))).thenReturn("id123456");
+        when(roomService.createRoom(any(Room.class))).thenReturn(new CreatedResourceDto("id123456"));
         String accessToken = getAccessToken("user", "password");
         mvc.perform(post(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS)
                 .header("Authorization", "Bearer " + accessToken)
@@ -46,7 +47,7 @@ public class RoomControllerTest extends AbstractControllerTest {
                 .content("{\"name\":\"foobar\"}"))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$", is("id123456")));
+                .andExpect(jsonPath("$.id", is("id123456")));
     }
 
     @Test

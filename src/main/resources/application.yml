@@ -2,4 +2,6 @@ spring:
   data:
     mongodb:
       database: public-chat
-      port:
+recaptcha:
+  url: https://www.google.com/recaptcha/api/siteverify
+  secret: 6LcWEhUUAAAAADlojijL5myPFxm2JWqR4tVR7UwW

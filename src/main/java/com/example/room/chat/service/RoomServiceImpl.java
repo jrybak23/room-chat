@@ -6,6 +6,7 @@ import com.example.room.chat.reference.errors.CustomError;
 import com.example.room.chat.reference.errors.CustomErrorException;
 import com.example.room.chat.repositories.RoomRepository;
 import com.example.room.chat.repositories.UserRepository;
+import com.example.room.chat.transfer.CreatedResourceDto;
 import com.example.room.chat.transfer.RoomDetail;
 import com.example.room.chat.transfer.RoomForm;
 import com.example.room.chat.utils.SecurityUtils;
@@ -36,12 +37,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String createRoom(Room room) {
+    public CreatedResourceDto createRoom(Room room) {
         User user = userRepository.findByUsername(securityUtils.getCurrentUserLogin())
                 .orElseThrow(() -> new CustomErrorException(CustomError.NO_USER_WITH_SUCH_USERNAME));
         room.setUser(user);
         roomRepository.save(room);
-        return room.getId();
+        return new CreatedResourceDto(room.getId());
     }
 
     private RoomDetail mapToRoomDetail(Room room) {

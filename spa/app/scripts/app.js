@@ -20,7 +20,8 @@ angular
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
-    'angularMoment'
+    'angularMoment',
+    'vcRecaptcha'
   ])
   .constant('GRUNT_SERVE_URL', 'http://localhost:9000')
   .constant('TOMCAT_URL', 'http://localhost:8080')
@@ -52,6 +53,13 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
         controllerAs: 'login'
+      })
+      .state({
+        name: 'sign-up',
+        url: '/sign-up',
+        templateUrl: 'views/sign-up.html',
+        controller: 'SignUpCtrl',
+        controllerAs: 'signUp'
       })
       .state({
         name: 'rooms',

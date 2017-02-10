@@ -32,6 +32,7 @@ public class ExceptionHandlerController {
                 : null;
 
         ErrorInfo dto = new ErrorInfo(error.getCode(), message, error.getDescription());
+
         return new ResponseEntity<>(dto, error.getHttpStatus());
     }
 
@@ -42,6 +43,7 @@ public class ExceptionHandlerController {
         String message = error.getMessageKey().isPresent()
                 ? ms.getMessage(error.getMessageKey().get(), null, LocaleContextHolder.getLocale()) : null;
         ErrorInfo dto = new ErrorInfo(error.getCode(), message, e.getMessage());
+
         return new ResponseEntity<>(dto, error.getHttpStatus());
     }
 }

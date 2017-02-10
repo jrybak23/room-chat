@@ -4,6 +4,7 @@ import com.example.room.chat.domain.Room;
 import com.example.room.chat.domain.User;
 import com.example.room.chat.repositories.RoomRepository;
 import com.example.room.chat.repositories.UserRepository;
+import com.example.room.chat.transfer.CreatedResourceDto;
 import com.example.room.chat.transfer.RoomDetail;
 import com.example.room.chat.transfer.RoomForm;
 import com.example.room.chat.utils.SecurityUtils;
@@ -59,8 +60,8 @@ public class RoomServiceTest extends AbstractServiceTest {
             return roomArg;
         }).when(roomRepository).save(any(Room.class));
 
-        String id = roomService.createRoom(room);
-        assertEquals("abc123456", id);
+        CreatedResourceDto newRoom = roomService.createRoom(room);
+        assertEquals("abc123456", newRoom.getId());
     }
 
     @Test

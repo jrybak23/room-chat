@@ -3,6 +3,9 @@ package com.example.room.chat.service;
 import com.example.room.chat.domain.User;
 import com.example.room.chat.reference.errors.CustomErrorException;
 import com.example.room.chat.repositories.UserRepository;
+import com.example.room.chat.transfer.CreatedResourceDto;
+import com.example.room.chat.transfer.RecaptchaVerificationResponseDto;
+import com.example.room.chat.transfer.RegistrationForm;
 import com.example.room.chat.utils.SecurityUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +29,12 @@ public class UserServiceTest extends AbstractServiceTest {
     @Mock
     private SecurityUtils securityUtils;
 
+    @Mock
+    private ReCaptchaClient reCaptchaClient;
+
     @Before
     public void setUp() throws Exception {
-        userService = new UserServiceImpl(userRepository, securityUtils);
+        userService = new UserServiceImpl(userRepository, securityUtils, reCaptchaClient);
     }
 
     @Test
@@ -47,9 +53,13 @@ public class UserServiceTest extends AbstractServiceTest {
 
     @Test
     public void createNewUser() throws Exception {
-        User user = new User();
-        user.setUsername("user");
-        user.setPassword("password");
+        RecaptchaVerificationResponseDto dto = new RecaptchaVerificationResponseDto();
+        dto.setSuccess(true);
+        when(reCaptchaClient.verify("recaptcha_response")).thenReturn(dto);
+        RegistrationForm form = new RegistrationForm();
+        form.setUsername("form");
+        form.setPassword("password");
+        form.setRecaptchaResponse("recaptcha_response");
 
         doAnswer(invocation -> {
             Object[] args = invocation.getArguments();
@@ -57,18 +67,35 @@ public class UserServiceTest extends AbstractServiceTest {
             userArg.setId("qwerty123456");
             return userArg;
         }).when(userRepository).save(any(User.class));
-        when(userRepository.findByUsername("user")).thenReturn(Optional.empty());
+        when(userRepository.findByUsername("form")).thenReturn(Optional.empty());
 
-        String id = userService.createNewUser(user);
-        assertEquals("qwerty123456", id);
-        verify(userRepository).save(eq(user));
+        CreatedResourceDto newUser = userService.createNewUser(form);
+        assertEquals("qwerty123456", newUser.getId());
     }
 
     @Test(expected = CustomErrorException.class)
     public void createNewConflictUser() throws Exception {
-        when(userRepository.findByUsername("user")).thenReturn(Optional.of(new User()));
-        User user = new User();
-        user.setUsername("user");
-        userService.createNewUser(user);
+        RecaptchaVerificationResponseDto dto = new RecaptchaVerificationResponseDto();
+        dto.setSuccess(true);
+        when(reCaptchaClient.verify("recaptcha_response")).thenReturn(dto);
+
+        when(userRepository.findByUsername("form")).thenReturn(Optional.of(new User()));
+        RegistrationForm form = new RegistrationForm();
+        form.setUsername("form");
+        form.setRecaptchaResponse("recaptcha_response");
+        userService.createNewUser(form);
+    }
+
+    @Test(expected = CustomErrorException.class)
+    public void createNewUserWithFailedReacptha() throws Exception {
+        RecaptchaVerificationResponseDto dto = new RecaptchaVerificationResponseDto();
+        dto.setSuccess(false);
+        when(reCaptchaClient.verify("recaptcha_response")).thenReturn(dto);
+
+        when(userRepository.findByUsername("form")).thenReturn(Optional.of(new User()));
+        RegistrationForm form = new RegistrationForm();
+        form.setUsername("form");
+        form.setRecaptchaResponse("recaptcha_response");
+        userService.createNewUser(form);
     }
 }

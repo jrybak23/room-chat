@@ -3,11 +3,11 @@ package com.example.room.chat.controllers;
 import com.example.room.chat.domain.Room;
 import com.example.room.chat.reference.Constants;
 import com.example.room.chat.service.RoomService;
+import com.example.room.chat.transfer.CreatedResourceDto;
 import com.example.room.chat.transfer.RoomDetail;
 import com.example.room.chat.transfer.RoomForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +26,10 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @PostMapping(value = Constants.URI_USERS + "/me" + Constants.URI_ROOMS, produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(value = Constants.URI_USERS + "/me" + Constants.URI_ROOMS)
     @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
-    public String createRoom(@RequestBody Room room) {
+    public CreatedResourceDto createRoom(@RequestBody Room room) {
         return roomService.createRoom(room);
     }
 

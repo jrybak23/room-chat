@@ -15,6 +15,7 @@ public enum CustomError {
             "error.user.with.such.username.exists"
     ),
     NO_USER_WITH_SUCH_USERNAME(2, HttpStatus.NOT_FOUND, "No user with such username"),
+    FAILED_RECAPTCHA_VERIFICATION(3, HttpStatus.BAD_REQUEST, "Failed recaptcha verification"),
     ACCESS_DENIED(401, HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase(), "error.access.denied"),
     FORBIDDEN(403, HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.getReasonPhrase()),
     NO_ENTITY_WITH_SUCH_ID(404, HttpStatus.NOT_FOUND, "No entity %s with id %s");
