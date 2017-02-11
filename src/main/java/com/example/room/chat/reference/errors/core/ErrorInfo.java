@@ -1,4 +1,4 @@
-package com.example.room.chat.reference.errors;
+package com.example.room.chat.reference.errors.core;
 
 /**
  * Created by igorek2312 on 26.01.17.

@@ -1,8 +1,8 @@
 package com.example.room.chat.controllers;
 
-import com.example.room.chat.reference.errors.ErrorInfo;
 import com.example.room.chat.reference.errors.core.AbstractCustomException;
 import com.example.room.chat.reference.errors.core.AccessDeniedCustomException;
+import com.example.room.chat.reference.errors.core.ErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
