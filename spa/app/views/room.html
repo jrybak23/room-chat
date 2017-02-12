@@ -15,7 +15,9 @@
   <div class="panel-heading">
     <h3 class="panel-title">Room with id:{{roomId}}</h3>
   </div>
-  <div class="panel-body">
+  <div id="chat-panel-body" class="panel-body" scroll-glue>
+    <button ng-show="currentPage<totalPages" ng-click="loadMessages()" class="btn btn-primary">Load more messages
+    </button>
     <div class="well" ng-repeat="message in messages">
       <span class="text-primary">{{message.username}} </span>
       <span class="text-muted">{{message.date | amUtc | amLocal | amDateFormat:'DD.MM.YYYY HH:mm:ss'}}</span> <br>

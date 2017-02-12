@@ -19,7 +19,7 @@ import java.io.IOException;
 @SpringBootTest(classes = MongoConfig.class)
 public abstract class AbstractRepositoryTest {
     @Autowired
-    private MongoTemplate mongoTemplate;
+    protected MongoTemplate mongoTemplate;
 
     protected void importJSON(String collection, String fileName) {
         try {

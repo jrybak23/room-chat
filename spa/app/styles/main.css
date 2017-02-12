@@ -5,3 +5,12 @@
 .well {
   padding: 5px;
 }
+
+#chat-panel-body {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.top-buffer {
+  margin-top: 20px;
+}

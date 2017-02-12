@@ -49,5 +49,9 @@ angular.module('roomChatApp')
       );
     };
 
+    $scope.joinToRoom = function () {
+      $state.go("room", {roomId: $scope.roomId});
+    };
+
     $scope.getRooms();
   });

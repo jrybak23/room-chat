@@ -43,10 +43,12 @@ public class RoomControllerTest extends AbstractControllerTest {
     public void createRoom() throws Exception {
         when(roomService.createRoom(any(Room.class))).thenReturn(new CreatedResourceDto("id123456"));
         String accessToken = getAccessToken("user", "password");
-        mvc.perform(post(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS)
-                .header("Authorization", "Bearer " + accessToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"foobar\"}"))
+        mvc.perform(
+                post(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS)
+                        .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"foobar\"}")
+        )
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is("id123456")));
@@ -55,8 +57,10 @@ public class RoomControllerTest extends AbstractControllerTest {
     @Test
     public void getCurrentUserRooms() throws Exception {
         String accessToken = getAccessToken("user", "password");
-        mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS)
-                .header("Authorization", "Bearer " + accessToken))
+        mvc.perform(
+                get(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS)
+                        .header("Authorization", "Bearer " + accessToken)
+        )
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -69,8 +73,10 @@ public class RoomControllerTest extends AbstractControllerTest {
         when(roomService.getRoom("id123456"))
                 .thenReturn(room);
         String accessToken = getAccessToken("user", "password");
-        mvc.perform(get(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS + "/id123456")
-                .header("Authorization", "Bearer " + accessToken))
+        mvc.perform(get(
+                Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS + "/id123456")
+                .header("Authorization", "Bearer " + accessToken)
+        )
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is("id123456")));
@@ -79,10 +85,12 @@ public class RoomControllerTest extends AbstractControllerTest {
     @Test
     public void updateRoom() throws Exception {
         String accessToken = getAccessToken("user", "password");
-        mvc.perform(put(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS + "/id123456")
-                .header("Authorization", "Bearer " + accessToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"barfoo\"}"))
+        mvc.perform(
+                put(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS + "/id123456")
+                        .header("Authorization", "Bearer " + accessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"barfoo\"}")
+        )
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -94,7 +102,8 @@ public class RoomControllerTest extends AbstractControllerTest {
         String accessToken = getAccessToken("user", "password");
         mvc.perform(
                 delete(Constants.URI_API + Constants.URI_USERS + "/me" + Constants.URI_ROOMS + "/id123456")
-                        .header("Authorization", "Bearer " + accessToken))
+                        .header("Authorization", "Bearer " + accessToken)
+        )
                 .andDo(print())
                 .andExpect(status().isNoContent());
 

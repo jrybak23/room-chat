@@ -1,4 +1,4 @@
-<span>Rooms:</span>
+<span>Your rooms:</span>
 <table class="table table-hover">
   <thead>
   <tr>
@@ -16,4 +16,16 @@
   </tr>
   </tbody>
 </table>
-<button ng-click="createRoom()" class="btn btn-primary">Create room</button>
+<div class="row">
+  <div class="col-sm-2">
+    <button ng-click="createRoom()" class="btn btn-primary">Create room</button>
+  </div>
+</div>
+<div class="row top-buffer">
+  <form class="form-horizontal" ng-submit="joinToRoom()">
+    <div class="col-sm-3">
+      <input class="form-control" type="text" ng-model="roomId">
+    </div>
+    <button type="submit" class="btn btn-primary">Join</button>
+  </form>
+</div>

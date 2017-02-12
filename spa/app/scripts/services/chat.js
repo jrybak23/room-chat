@@ -11,11 +11,12 @@ angular.module('roomChatApp')
   .factory('chat', function ($q, $http, HOST_URL) {
     var stompClient = null, room;
     return {
-      connect: function (roomId, messageHandlerCallback) {
+      connect: function (roomId, messageHandlerCallback, errorHandlerCallBack) {
         room = roomId;
         var deferred = $q.defer();
         var socket = new SockJS(HOST_URL + '/chat/rooms/' + roomId);
         stompClient = Stomp.over(socket);
+        stompClient.debug = null;
         var headers = {};
         headers['Authorization'] = $http.defaults.headers.common.Authorization;
         stompClient.connect(headers,
@@ -25,7 +26,14 @@ angular.module('roomChatApp')
               function (messageOutput) {
                 var message = JSON.parse(messageOutput.body);
                 messageHandlerCallback(message);
-              });
+              }
+            );
+            stompClient.subscribe('/user/queue/error',
+              function (messageOutput) {
+                var message = JSON.parse(messageOutput.body);
+                errorHandlerCallBack(message);
+              }
+            );
           },
           function (frame) {
             deferred.reject(frame);

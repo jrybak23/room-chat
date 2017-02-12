@@ -68,7 +68,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomDetail getRoom(String roomId) {
         Room room = findOneOrThrowNotFound(roomRepository, roomId, Room.class);
-        authorizeRoom(room);
         return mapToRoomDetail(room);
     }
 

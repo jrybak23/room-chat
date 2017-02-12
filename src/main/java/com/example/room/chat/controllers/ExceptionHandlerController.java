@@ -30,13 +30,14 @@ public class ExceptionHandlerController {
                 ? ms.getMessage(e.getMessageKey().get(), e.getMessageArgs(), LocaleContextHolder.getLocale())
                 : null;
 
-        ErrorInfo dto = new ErrorInfo(e.getCode(), message, e.getDescription());
+        ErrorInfo dto = new ErrorInfo(e.getCode(), message, e.getInterpolatedDescription());
 
         return new ResponseEntity<>(dto, e.getHttpStatus());
     }
 
-    @ResponseBody
+
     @ExceptionHandler(AccessDeniedException.class)
+    @ResponseBody
     public ResponseEntity<ErrorInfo> handleException(AccessDeniedException e) {
         AccessDeniedCustomException error = new AccessDeniedCustomException();
 
@@ -46,4 +47,10 @@ public class ExceptionHandlerController {
 
         return new ResponseEntity<>(dto, error.getHttpStatus());
     }
+
+    /*@ExceptionHandler(Exception.class)
+    @ResponseBody
+    public Exception handleException(Exception e) {
+       return e;
+    }*/
 }

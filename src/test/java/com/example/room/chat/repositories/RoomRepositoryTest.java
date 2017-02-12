@@ -20,6 +20,7 @@ public class RoomRepositoryTest extends AbstractRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
+        mongoTemplate.getCollectionNames().forEach(mongoTemplate::dropCollection);
         importJSON("user", "src/test/resources/users.json");
         importJSON("room", "src/test/resources/rooms.json");
     }

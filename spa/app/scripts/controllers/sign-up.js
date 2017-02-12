@@ -8,14 +8,15 @@
  * Controller of the roomChatApp
  */
 angular.module('roomChatApp')
-  .controller('SignUpCtrl', function ($scope, User, messageBox) {
+  .controller('SignUpCtrl', function ($scope, $state, User, messageBox) {
     $scope.user = {};
 
     $scope.submitSignUp = function () {
       User.save({},
         $scope.user,
         function () {
-          messageBox.show("Successfully registered")
+          messageBox.show("Successfully registered");
+          $state.go('login');
         });
     }
   });

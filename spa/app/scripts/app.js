@@ -21,7 +21,8 @@ angular
     'ui.bootstrap',
     'angular-loading-bar',
     'angularMoment',
-    'vcRecaptcha'
+    'vcRecaptcha',
+    'luegg.directives'
   ])
   .constant('GRUNT_SERVE_URL', 'http://localhost:9000')
   .constant('TOMCAT_URL', 'http://localhost:8080')
@@ -118,8 +119,9 @@ angular
               );
             else if (response.data.message)
               messageBox.show(response.data.message, MessageType.ERROR);
-            else if (response.data.description)
+            /*else if (response.data.description)
               messageBox.show("Unexpected error. Error description: " + response.data.description, MessageType.ERROR);
+             */
           }
           else
             messageBox.show(response, MessageType.ERROR);

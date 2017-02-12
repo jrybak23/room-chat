@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
  * Created by igorek2312 on 04.02.17.
  */
 public interface MessageService {
-    void handleNewMessage(MessageDetails message);
+    void handleNewMessage(String roomId, MessageDetails message);
 
-    Page<MessageDetails> viewMessages(Pageable pageable);
+    Page<MessageDetails> getMessages(String roomId, Pageable pageable);
 }

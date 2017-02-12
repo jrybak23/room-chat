@@ -18,6 +18,7 @@ public class UserRepositoryTest extends AbstractRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
+        mongoTemplate.getCollectionNames().forEach(mongoTemplate::dropCollection);
         importJSON("user", "src/test/resources/users.json");
     }
 
