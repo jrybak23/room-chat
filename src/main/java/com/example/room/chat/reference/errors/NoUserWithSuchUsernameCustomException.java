@@ -1,12 +1,14 @@
 package com.example.room.chat.reference.errors;
 
-import com.example.room.chat.reference.errors.core.AbstractCustomException;
+import com.example.room.chat.reference.errors.core.CustomException;
 import org.springframework.http.HttpStatus;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * Thrown when requested user entity by username is not found.
+ *
+ * @author Igor Rybak
  */
-public class NoUserWithSuchUsernameCustomException extends AbstractCustomException {
+public class NoUserWithSuchUsernameCustomException extends CustomException {
     @Override
     public int getCode() {
         return 2;

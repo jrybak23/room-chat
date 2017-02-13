@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
- * Created by igorek2312 on 11.02.17.
+ * @author Igor Rybak
  */
 public interface MessageRepository extends MongoRepository<Message, String> {
     Page<Message> findByRoomId(String roomId, Pageable pageable);

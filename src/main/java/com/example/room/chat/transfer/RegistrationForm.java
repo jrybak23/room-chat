@@ -1,7 +1,7 @@
 package com.example.room.chat.transfer;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * @author Igor Rybak
  */
 public class RegistrationForm {
     private String username;

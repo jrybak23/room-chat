@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 /**
- * Created by igorek2312 on 26.01.17.
+ * @author Igor Rybak
  */
 @Configuration
 public class ResourceWebConfig {

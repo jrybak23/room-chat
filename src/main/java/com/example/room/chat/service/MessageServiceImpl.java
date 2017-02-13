@@ -19,7 +19,7 @@ import java.util.Date;
 import static com.example.room.chat.utils.EntityUtil.findOneOrThrowNotFound;
 
 /**
- * Created by igorek2312 on 04.02.17.
+ * @author Igor Rybak
  */
 @Service
 public class MessageServiceImpl implements MessageService {

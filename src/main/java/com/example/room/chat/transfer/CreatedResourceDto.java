@@ -1,7 +1,8 @@
 package com.example.room.chat.transfer;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * Transfer object, contains id to send in response of POST request.
+ * @author Igor Rybak
  */
 public class CreatedResourceDto {
     private String id;

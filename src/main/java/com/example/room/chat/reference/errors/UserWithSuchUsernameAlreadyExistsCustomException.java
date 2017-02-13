@@ -1,14 +1,16 @@
 package com.example.room.chat.reference.errors;
 
-import com.example.room.chat.reference.errors.core.AbstractCustomException;
+import com.example.room.chat.reference.errors.core.CustomException;
 import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * Thrown during registration new user when the user with same username already exists.
+ *
+ * @author Igor Rybak
  */
-public class UserWithSuchUsernameAlreadyExistsCustomException extends AbstractCustomException {
+public class UserWithSuchUsernameAlreadyExistsCustomException extends CustomException {
     @Override
     public int getCode() {
         return 1;

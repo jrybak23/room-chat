@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by igorek2312 on 29.01.17.
+ * @author Igor Rybak
  */
 public class RoomControllerTest extends AbstractControllerTest {
     @Autowired

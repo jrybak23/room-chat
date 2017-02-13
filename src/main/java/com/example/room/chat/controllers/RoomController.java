@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Created by igorek2312 on 27.01.17.
+ * @author Igor Rybak
  */
 @RestController
 @RequestMapping(Constants.URI_API)

@@ -1,7 +1,7 @@
 package com.example.room.chat.controllers;
 
-import com.example.room.chat.reference.errors.core.AbstractCustomException;
 import com.example.room.chat.reference.errors.core.AccessDeniedCustomException;
+import com.example.room.chat.reference.errors.core.CustomException;
 import com.example.room.chat.reference.errors.core.ErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ExceptionHandlerController {
     @Autowired
     @Qualifier("backendMessageSource")
-    private MessageSource ms;
+    private MessageSource messageSource;
 
-    @ExceptionHandler(AbstractCustomException.class)
+    @ExceptionHandler(CustomException.class)
     @ResponseBody
-    public ResponseEntity<ErrorInfo> handleErrorCodeException(AbstractCustomException e) {
+    public ResponseEntity<ErrorInfo> handleErrorCodeException(CustomException e) {
 
         String message = e.getMessageKey().isPresent()
-                ? ms.getMessage(e.getMessageKey().get(), e.getMessageArgs(), LocaleContextHolder.getLocale())
+                ? messageSource.getMessage(e.getMessageKey().get(), e.getMessageArgs(), LocaleContextHolder.getLocale())
                 : null;
 
         ErrorInfo dto = new ErrorInfo(e.getCode(), message, e.getInterpolatedDescription());
@@ -42,7 +42,7 @@ public class ExceptionHandlerController {
         AccessDeniedCustomException error = new AccessDeniedCustomException();
 
         String message = error.getMessageKey().isPresent()
-                ? ms.getMessage(error.getMessageKey().get(), null, LocaleContextHolder.getLocale()) : null;
+                ? messageSource.getMessage(error.getMessageKey().get(), null, LocaleContextHolder.getLocale()) : null;
         ErrorInfo dto = new ErrorInfo(error.getCode(), message, e.getMessage());
 
         return new ResponseEntity<>(dto, error.getHttpStatus());

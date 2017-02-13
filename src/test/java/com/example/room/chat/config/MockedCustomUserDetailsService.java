@@ -14,7 +14,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by igorek2312 on 24.01.17.
+ * Mocked user detail service {@link UserDetailsService} for MVC integration tests.
+ *
+ * @author Igor Rybak
  */
 @Service
 public class MockedCustomUserDetailsService implements UserDetailsService {

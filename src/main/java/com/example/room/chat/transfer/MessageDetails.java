@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 /**
- * Created by igorek2312 on 04.02.17.
+ * @author Igor Rybak
  */
 public class MessageDetails {
     private String content;

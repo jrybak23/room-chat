@@ -20,7 +20,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
- * Created by igorek2312 on 21.01.17.
+ * OAuth2 configuration
+ *
+ * @author Igor Rybak
  */
 @Configuration
 public class OAuth2ServerConfiguration {
@@ -40,7 +42,6 @@ public class OAuth2ServerConfiguration {
         public void configure(HttpSecurity http) throws Exception {
             http
                     .csrf()
-                    // ignore our stomp endpoints since they are protected using Stomp headers
                     .disable()
                     .headers()
                     // allow same origin to frame our site to support iframe SockJS

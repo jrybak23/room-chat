@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.EnumSet;
 
 /**
- * Created by igorek2312 on 24.01.17.
+ * @author Igor Rybak
  */
 @Service
 public class UserServiceImpl implements UserService {

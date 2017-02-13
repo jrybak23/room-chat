@@ -8,7 +8,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * @author Igor Rybak
  */
 @Component
 public class ReCaptchaClientImpl implements ReCaptchaClient {

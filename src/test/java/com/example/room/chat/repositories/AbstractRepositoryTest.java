@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by igorek2312 on 23.01.17.
+ * Abstract MongoDB integration test class.
+ *
+ * @author Igor Rybak
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = MongoConfig.class)
@@ -21,6 +23,12 @@ public abstract class AbstractRepositoryTest {
     @Autowired
     protected MongoTemplate mongoTemplate;
 
+    /**
+     * Import sample data from JSON file to MongoDB. JSON file should contain array with documents of collection.
+     *
+     * @param collection name of collection
+     * @param fileName   path to json file
+     */
     protected void importJSON(String collection, String fileName) {
         try {
             File file = new File(fileName);

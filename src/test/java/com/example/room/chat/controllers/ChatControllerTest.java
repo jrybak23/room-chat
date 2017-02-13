@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by igorek2312 on 11.02.17.
+ * @author Igor Rybak
  */
 public class ChatControllerTest extends AbstractControllerTest {
     @Autowired

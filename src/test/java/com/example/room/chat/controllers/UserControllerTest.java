@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by igorek2312 on 24.01.17.
+ * @author Igor Rybak
  */
 public class UserControllerTest extends AbstractControllerTest {
     @Autowired

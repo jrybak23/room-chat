@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * Created by igorek2312 on 24.01.17.
+ * @author Igor Rybak
  */
 @RestController
 @RequestMapping(Constants.URI_API)

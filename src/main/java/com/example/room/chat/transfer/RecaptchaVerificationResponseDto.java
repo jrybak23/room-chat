@@ -6,14 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * @author Igor Rybak
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecaptchaVerificationResponseDto {
     private boolean success;
+
     @JsonProperty("challenge_ts")
     private String challengeTs;
+
     private String hostname;
+
     @JsonProperty("error-codes")
     private List<String> errorCodes;
 

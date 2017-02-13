@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Created by igorek2312 on 04.02.17.
+ * @author Igor Rybak
  */
 public interface MessageService {
     void handleNewMessage(String roomId, MessageDetails message);

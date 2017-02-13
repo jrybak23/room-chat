@@ -3,9 +3,11 @@ package com.example.room.chat.reference.errors.core;
 import org.springframework.http.HttpStatus;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * Thrown according to 404 HTTP status code in RESTful web services. When the requested entity by id is not found.
+ *
+ * @author Igor Rybak
  */
-public class NoEntityWithSuchIdCustomException extends AbstractCustomException {
+public class NoEntityWithSuchIdCustomException extends CustomException {
     @Override
     public int getCode() {
         return 404;

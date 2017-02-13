@@ -1,7 +1,9 @@
 package com.example.room.chat.reference;
 
 /**
- * Created by igorek2312 on 28.01.17.
+ * Contains URIs of RESTful API
+ *
+ * @author Igor Rybak
  */
 public class Constants {
     public static final String URI_USERS = "/users";

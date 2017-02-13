@@ -1,11 +1,13 @@
 package com.example.room.chat.reference.errors;
 
-import com.example.room.chat.reference.errors.core.AbstractCustomException;
+import com.example.room.chat.reference.errors.core.CustomException;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * Thrown when failed recaptcha response verification.
+ *
+ * @author Igor Rybak
  */
-public class FailedRecaptchaVerificationCustomException extends AbstractCustomException {
+public class FailedRecaptchaVerificationCustomException extends CustomException {
     @Override
     public int getCode() {
         return 3;

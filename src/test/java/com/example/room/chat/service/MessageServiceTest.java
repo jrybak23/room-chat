@@ -26,9 +26,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by igorek2312 on 11.02.17.
+ * @author Igor Rybak
  */
-public class MessageServiceImplTest extends AbstractServiceTest {
+public class MessageServiceTest extends AbstractServiceTest {
     @Mock
     private SecurityUtils securityUtils;
     @Mock

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 /**
- * Created by igorek2312 on 23.01.17.
+ * @author Igor Rybak
  */
 @Service
 @Profile("dev")

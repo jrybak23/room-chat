@@ -1,7 +1,7 @@
 package com.example.room.chat.transfer;
 
 /**
- * Created by igorek2312 on 05.02.17.
+ * @author Igor Rybak
  */
 public class RoomDetail {
     private String id;

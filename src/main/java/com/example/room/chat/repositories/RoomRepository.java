@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 /**
- * Created by igorek2312 on 29.01.17.
+ * @author Igor Rybak
  */
 public interface RoomRepository extends MongoRepository<Room, String> {
     List<Room> findByUserId(String id);

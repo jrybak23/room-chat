@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
- * Created by igorek2312 on 11.02.17.
+ * @author Igor Rybak
  */
 public class MessageRepositoryTest extends AbstractRepositoryTest {
     @Autowired

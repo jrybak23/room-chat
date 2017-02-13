@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import java.util.Optional;
 
 /**
- * Created by igorek2312 on 10.02.17.
+ * Thrown according to 401 HTTP status code in RESTful web services.
+ *
+ * @author Igor Rybak
  */
-public class AccessDeniedCustomException extends AbstractCustomException {
+public class AccessDeniedCustomException extends CustomException {
     @Override
     public int getCode() {
         return 401;

@@ -1,7 +1,9 @@
 package com.example.room.chat.reference.errors.core;
 
 /**
- * Created by igorek2312 on 26.01.17.
+ * A transfer object for error representation.
+ *
+ * @author Igor Rybak
  */
 public class ErrorInfo {
     private int errorCode;

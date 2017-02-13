@@ -24,19 +24,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Created by igorek2312 on 23.01.17.
+ * Abstract MVC integration test class.
+ *
+ * @author Igor Rybak
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
 public abstract class AbstractControllerTest {
-    protected MockMvc mvc;
+    MockMvc mvc;
 
     @Autowired
-    protected WebApplicationContext context;
+    private WebApplicationContext context;
 
     @Autowired
-    protected FilterChainProxy springSecurityFilterChain;
+    private FilterChainProxy springSecurityFilterChain;
 
     @Before
     public void setup() {
@@ -45,6 +47,12 @@ public abstract class AbstractControllerTest {
                 .build();
     }
 
+    /**
+     * Retrieve JWT token from oauth2 token response
+     *
+     * @param content body of response
+     * @return JWT
+     */
     private String parseJWT(String content) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(content);
@@ -52,10 +60,14 @@ public abstract class AbstractControllerTest {
         return textNode.textValue();
     }
 
+    /**
+     * Test "/oauth/token" endpoint
+     *
+     * @return oauth2 access token (or JWT)
+     */
     protected String getAccessToken(String username, String password) throws Exception {
         String authorization = "Basic " + new String(Base64Utils.encode("webapp:123456".getBytes()));
 
-        // @formatter:off
         String content = mvc
                 .perform(
                         post("/oauth/token")
@@ -72,7 +84,6 @@ public abstract class AbstractControllerTest {
                 .andExpect(jsonPath("$.token_type", is(equalTo("bearer"))))
                 .andExpect(jsonPath("$.scope", is(equalTo("use"))))
                 .andReturn().getResponse().getContentAsString();
-        // @formatter:on
 
         return parseJWT(content);
     }

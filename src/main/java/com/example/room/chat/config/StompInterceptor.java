@@ -16,7 +16,10 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * Created by igorek2312 on 05.02.17.
+ * Configure security context for web-socket calls.
+ *
+ * @author Igor Rybak
+ * @see WebSocketConfig#configureClientInboundChannel
  */
 @Component
 @Qualifier("stompInterceptor")

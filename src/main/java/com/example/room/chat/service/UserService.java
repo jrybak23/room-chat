@@ -5,7 +5,7 @@ import com.example.room.chat.transfer.CreatedResourceDto;
 import com.example.room.chat.transfer.RegistrationForm;
 
 /**
- * Created by igorek2312 on 24.01.17.
+ * @author Igor Rybak
  */
 public interface UserService {
     User getCurrentUser();

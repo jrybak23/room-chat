@@ -7,7 +7,9 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
- * Created by igorek2312 on 23.01.17.
+ * Embedded mongodb configuration for integration testing.
+ *
+ * @author Igor Rybak
  */
 @Configuration
 @EnableMongoRepositories("com.example.room.chat")

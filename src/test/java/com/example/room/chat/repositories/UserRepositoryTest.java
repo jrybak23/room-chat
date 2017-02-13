@@ -10,7 +10,7 @@ import static com.example.room.chat.utils.EntityUtil.findOneOrThrowNotFound;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by igorek2312 on 23.01.17.
+ * @author Igor Rybak
  */
 public class UserRepositoryTest extends AbstractRepositoryTest {
     @Autowired

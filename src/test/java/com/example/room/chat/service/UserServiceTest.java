@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
- * Created by igorek2312 on 24.01.17.
+ * @author Igor Rybak
  */
 public class UserServiceTest extends AbstractServiceTest {
 
